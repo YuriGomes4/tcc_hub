@@ -1,0 +1,12 @@
+[Unit]
+Description=Meu Serviço Python
+After=network.target
+
+[Service]
+User=seu_usuario
+ExecStart=/usr/bin/python3 /caminho/para/seu_script.py
+WorkingDirectory=/caminho/para/seu_script.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
