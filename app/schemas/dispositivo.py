@@ -8,6 +8,8 @@ class Dispositivo_Schema(Schema):
     id_area_residencia = fields.Integer()
     nome = fields.String()
     codigo = fields.String()
+    tipo = fields.String()
+    info = fields.String()
 
     class Meta:
         strict = True

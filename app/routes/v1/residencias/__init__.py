@@ -1,4 +1,4 @@
-from app.routes.v1.vendas.routes import vendas_bp
+from app.routes.v1.residencias.routes import residencias_bp
 
 
 def init_app(routes_bp):
@@ -7,4 +7,4 @@ def init_app(routes_bp):
     
     :param routes_bp: The Flask application instance
     """
-    routes_bp.register_blueprint(vendas_bp)
+    routes_bp.register_blueprint(residencias_bp)
