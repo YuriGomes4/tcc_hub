@@ -18,9 +18,9 @@ def get_info(current_user, dispositivo_id):
             #print(type(info), info)
             info['tipo'] = dispositivo.tipo
             info['nome'] = dispositivo.nome
-            return jsonify([{"result": info, "code": 200}])
+            return jsonify({"result": info, "code": 200})
         except:
-            return jsonify([{"message": "ID do dispositivo incorreto", "code": 404}])
+            return jsonify({"message": "ID do dispositivo incorreto", "code": 404})
         
     elif request.method == 'POST':
 
@@ -34,9 +34,9 @@ def get_info(current_user, dispositivo_id):
 
             crud_dispositivo.update(dispositivo)
 
-            return jsonify([{"message": "Informações atualizadas", "code": 200}])
+            return jsonify({"message": "Informações atualizadas", "code": 200})
         else:
-            return jsonify([{"message": "ID do dispositivo incorreto", "code": 404}])
+            return jsonify({"message": "ID do dispositivo incorreto", "code": 404})
     
 @dispositivos_bp.route('search', methods=['GET'])
 #@token_required
@@ -46,9 +46,9 @@ def search_dispositivos():
 
     try:
         dispositivo = crud_dispositivo.read_multi(id_area_residencia=area, schema=True)
-        return jsonify([{"result": dispositivo, "code": 200}])
+        return jsonify({"result": dispositivo, "code": 200})
     except:
-        return jsonify([{"message": "ID do dispositivo incorreto", "code": 404}])
+        return jsonify({"message": "ID do dispositivo incorreto", "code": 404})
     
 @dispositivos_bp.route('user', methods=['GET'])
 #@token_required
@@ -68,4 +68,4 @@ def dispositivos_usuario():
 
         return jsonify({"result": disps, "code": 200})
     except:
-        return jsonify([{"message": "ID do dispositivo incorreto", "code": 404}])
+        return jsonify({"message": "ID do dispositivo incorreto", "code": 404})

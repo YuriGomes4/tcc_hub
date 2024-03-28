@@ -2,3 +2,4 @@ database.db
 database.db
 backup/
 venv/
+*.pyc
