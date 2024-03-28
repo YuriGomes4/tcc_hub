@@ -6,19 +6,37 @@ import json
 
 dispositivos_bp = Blueprint('dispositivos', __name__, url_prefix='/dispositivos')
 
-@dispositivos_bp.route('info/<int:dispositivo_id>', methods=['GET'])
-#@token_required
-def get_info(dispositivo_id):
+@dispositivos_bp.route('info/<string:dispositivo_id>', methods=['GET', 'POST'])
+@token_required
+def get_info(current_user, dispositivo_id):
 
-    try:
-        dispositivo = crud_dispositivo.read(id=dispositivo_id)
-        info = json.loads(dispositivo.info)
-        #print(type(info), info)
-        info['tipo'] = dispositivo.tipo
-        info['nome'] = dispositivo.nome
-        return jsonify([{"result": info, "code": 200}])
-    except:
-        return jsonify([{"message": "ID do dispositivo incorreto", "code": 404}])
+    if request.method == 'GET':
+
+        try:
+            dispositivo = crud_dispositivo.read(codigo=dispositivo_id)
+            info = json.loads(dispositivo.info)
+            #print(type(info), info)
+            info['tipo'] = dispositivo.tipo
+            info['nome'] = dispositivo.nome
+            return jsonify([{"result": info, "code": 200}])
+        except:
+            return jsonify([{"message": "ID do dispositivo incorreto", "code": 404}])
+        
+    elif request.method == 'POST':
+
+        data = request.get_json()
+
+        dispositivo = crud_dispositivo.read(codigo=dispositivo_id)
+
+        if dispositivo:
+            
+            dispositivo.info = json.dumps(data)
+
+            crud_dispositivo.update(dispositivo)
+
+            return jsonify([{"message": "Informações atualizadas", "code": 200}])
+        else:
+            return jsonify([{"message": "ID do dispositivo incorreto", "code": 404}])
     
 @dispositivos_bp.route('search', methods=['GET'])
 #@token_required

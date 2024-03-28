@@ -77,7 +77,7 @@ def login():
         # generates the JWT Token
         token = jwt.encode({
             'id_publico': user.id_publico,
-            'exp' : datetime.utcnow() + timedelta(minutes = 30)
+            #'exp' : datetime.utcnow() + timedelta(minutes = 30)
         }, Config.SECRET_KEY)
   
         return make_response(jsonify({'token' : token.decode('UTF-8')}), 201)
