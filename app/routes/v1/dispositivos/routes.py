@@ -7,6 +7,34 @@ import json
 
 dispositivos_bp = Blueprint('dispositivos', __name__, url_prefix='/dispositivos')
 
+@dispositivos_bp.route('', methods=['POST'])
+@token_required
+def add_dispositivo(current_user):
+
+    if request.method == 'POST':
+
+        nome = request.args.get('nome')
+        tipo = request.args.get('tipo')
+        id_residencia = request.args.get('residencia')
+        id_area = request.args.get('area')
+        codigo = request.args.get('codigo')
+
+        if not nome or not tipo or not id_residencia or not id_area or not codigo:
+            return jsonify({"message": "Dados insuficientes", "code": 404})
+        else:
+
+            crud_dispositivo.create(
+                nome=nome,
+                tipo=tipo,
+                id_residencia=id_residencia,
+                id_area_residencia=id_area,
+                codigo=codigo,
+                data_criacao=datetime.now(),
+                data_alteracao=datetime.now()
+            )
+
+            return jsonify({"message": "Dispositivo cadastrado", "code": 200})
+
 @dispositivos_bp.route('info/<string:dispositivo_id>', methods=['GET', 'POST'])
 @token_required
 def get_info(current_user, dispositivo_id):

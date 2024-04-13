@@ -23,8 +23,8 @@ def get(current_user):
         return jsonify({"message": "ID do usuario incorreto", "code": 404})
 
 @residencias_bp.route('<int:residencia_id>/areas', methods=['GET'])
-#@token_required
-def get_areas(residencia_id):
+@token_required
+def get_areas(current_user, residencia_id):
 
     #pi_usuario = request.args.get('usuario')
 
@@ -32,6 +32,6 @@ def get_areas(residencia_id):
 
     try:
         residencias = crud_area_residencia.read_multi(id_residencia=residencia.id, schema=True)
-        return jsonify([{"result": residencias, "code": 200}])
+        return jsonify({"result": residencias, "code": 200})
     except:
-        return jsonify([{"message": "ID da residencia incorreto", "code": 404}])
+        return jsonify({"message": "ID da residencia incorreto", "code": 404})
