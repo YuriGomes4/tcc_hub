@@ -9,7 +9,7 @@ class Dispositivo_Schema(Schema):
     nome = fields.String()
     codigo = fields.String()
     tipo = fields.String()
-    info = fields.String()
+    info = fields.Field()
 
     class Meta:
         strict = True

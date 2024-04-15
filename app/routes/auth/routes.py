@@ -115,3 +115,36 @@ def signup():
     else:
         # returns 202 if user already exists
         return make_response('User already exists. Please Log in.', 202)
+    
+@auth_bp.route('/usuario', methods =['GET', 'PUT'])
+@token_required
+def get_usuario(current_user):
+    if request.method == 'GET':
+        return jsonify({"result": crud_usuario.read(id_publico = current_user.id_publico, schema=True)}), 200
+    elif request.method == 'PUT':
+        data = request.form
+        nome = data.get('name')
+        email = data.get('email')
+        senha = data.get('password')
+
+        old_nome = current_user.nome
+        old_email = current_user.email
+        old_senha = current_user.senha
+        
+        if nome:
+            current_user.nome = nome
+        if email:
+            current_user.email = email
+        if senha:
+            current_user.senha = generate_password_hash(senha)
+        
+        if old_nome == current_user.nome and old_email == current_user.email and old_senha == current_user.senha:
+            return make_response('No changes were made.', 402)
+        
+        else:
+
+            current_user.data_alteracao = datetime.today()
+
+            crud_usuario.update(current_user)
+            
+            return make_response('Successfully updated.', 200)

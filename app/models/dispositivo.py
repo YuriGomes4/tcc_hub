@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, JSON
 from sqlalchemy.orm import relationship
 from .base import Base
 
@@ -15,4 +15,4 @@ class Dispositivo(Base):
     tipo = Column(String)
     nome = Column(String(100))
     codigo = Column(String)
-    info = Column(String)
+    info = Column(JSON)
