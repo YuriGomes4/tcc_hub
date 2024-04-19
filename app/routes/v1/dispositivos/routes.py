@@ -138,7 +138,10 @@ def get_info(current_user, dispositivo_id):
             
             if dispositivo.tipo == 'termometro':
                 data = request.get_json()
-                info_json = json.loads(data)
+                try:
+                    info_json = json.loads(data)
+                except:
+                    info_json = data
                 dispositivo.info = info_json
 
             dispositivo.data_alteracao = datetime.now()
