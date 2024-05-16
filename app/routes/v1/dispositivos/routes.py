@@ -191,6 +191,7 @@ def att_infos(current_user):
                         atulizou = True
 
             if atulizou:
+                print(data_json)
                 return jsonify({"message": "Informações atualizadas"}), 200
             else:
                 return jsonify({"message": "Nada foi atualizado"}), 402
