@@ -151,6 +151,52 @@ def get_info(current_user, dispositivo_id):
             return jsonify({"message": "Informações atualizadas"}), 200
         else:
             return jsonify({"message": "ID do dispositivo incorreto"}), 404
+        
+@dispositivos_bp.route('info', methods=['GET', 'POST'])
+@token_required
+def att_infos(current_user):
+        
+    if request.method == 'POST':
+
+        data = request.get_json()
+
+        try:
+            data_json = json.loads(data)
+        except:
+            data_json = data
+
+        if type(data_json) == dict:
+
+            atulizou = False
+
+            for dispositivo_id in data_json.keys():
+
+                dispositivo = crud_dispositivo.read(codigo=dispositivo_id)
+
+                if dispositivo:
+                    
+                    try:
+                        info_json = json.loads(data_json[dispositivo_id])
+                    except:
+                        info_json = data_json[dispositivo_id]
+
+                    if type(info_json) == dict:
+
+                        dispositivo.info = info_json
+
+                        dispositivo.data_alteracao = datetime.now()
+
+                        crud_dispositivo.update(dispositivo)
+
+                        atulizou = True
+
+            if atulizou:
+                return jsonify({"message": "Informações atualizadas"}), 200
+            else:
+                return jsonify({"message": "Nada foi atualizado"}), 402
+
+        else:
+            return jsonify({"message": "Dados incorretos"}), 400
     
 @dispositivos_bp.route('search', methods=['GET'])
 #@token_required
